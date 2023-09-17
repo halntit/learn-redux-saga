@@ -9,7 +9,7 @@ const mapStateToProps = state => ({
 });
 
 const incCount = 2;
-const decsCount = 1;
+const decCount = 1;
 
 function App(props) {
   const [name, setName] = useState('');
@@ -19,7 +19,7 @@ function App(props) {
   }
 
   const handleDescrease = () => {
-    props.dispatch(decreaseCount(decsCount));
+    props.dispatch(decreaseCount(decCount));
   }
 
   const handleOnChange = (e) => {
@@ -41,7 +41,7 @@ function App(props) {
       <h4>Count App</h4>
       <h5>Count is {props.count}</h5>
       <button onClick={handleIncrease}>Increase by {incCount}</button>
-      <button onClick={handleDescrease}>Descrease by {decsCount}</button>
+      <button onClick={handleDescrease}>Descrease by {decCount}</button>
 
       <hr />
 
