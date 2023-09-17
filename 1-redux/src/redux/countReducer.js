@@ -8,13 +8,13 @@ export const counterReducer = (state = initialState, action) => {
   switch (action.type) {
     case Types.INCREASE_COUNT: {
       return {
-        count: state.count + 1
+        count: state.count + action.count
       };
     }
 
     case Types.DECREASE_COUNT: {
       return {
-        count: state.count - 1
+        count: state.count - + action.count
       };
     }
 
