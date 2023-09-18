@@ -1,18 +1,16 @@
 import './App.css';
-import { connect, useDispatch } from 'react-redux'
-import { addTodoAsync, deleteTodo } from './redux/todosSlice';
+import { connect, useDispatch, useSelector } from 'react-redux'
+import { deleteTodo } from './redux/todosSlice';
 import { increaseCount, decreaseCount } from './redux/counterSlice';
-
-const mapStateToProps = state => ({
-  count: state.count.count,
-  todos: state.todos.todos,
-});
+import { fetchTodo } from './redux/actions';
 
 const incCount = 2;
 const decCount = 1;
 
 function App(props) {
   const dispatch = useDispatch();
+  const todos = useSelector(state => state.todos);
+  const count = useSelector(state => state.count);
 
   const handleIncrease = () => {
     dispatch(increaseCount(incCount));
@@ -23,7 +21,8 @@ function App(props) {
   }
 
   const handleAdd = () => {
-    dispatch(addTodoAsync());
+    const number = Math.floor(Math.random() * 100) + 1;
+    dispatch(fetchTodo(number));
   }
 
   const handleDelete = (index) => {
@@ -34,7 +33,7 @@ function App(props) {
     <div className="App">
       <h1>Redux turtorial</h1>
       <h4>Count App</h4>
-      <h5>Count is {props.count}</h5>
+      <h5>Count is {count.count}</h5>
       <button onClick={handleIncrease}>Increase by {incCount}</button>
       <button onClick={handleDescrease}>Descrease by {decCount}</button>
 
@@ -43,14 +42,15 @@ function App(props) {
       <h4>ToDo App</h4>
       <div>
         <button onClick={handleAdd}>Add a task</button>
+        { todos.isLoading && <span>...</span> }
       </div>
       <br />
       <ul align="left" style={{width:'240px', margin:'auto', border:'1px solid black', padding:'20px'}}>
-        {props.todos.map((todo, i) => 
+        {todos.todos.map((todo, i) => 
           <li key={i}>
-            {todo}
-            &nbsp;
             <button onClick={() => handleDelete(i)}>x</button>
+            &nbsp;
+            {todo}
           </li>
         )}
       </ul>
@@ -58,4 +58,4 @@ function App(props) {
   );
 }
 
-export default connect(mapStateToProps)(App);
+export default connect()(App);
