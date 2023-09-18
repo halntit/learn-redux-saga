@@ -1,6 +1,6 @@
 import { increaseCount, decreaseCount } from "./counterSlice";
 import { deleteTodo, addTodo } from "./todosSlice";
-import { put, call, takeLatest, delay, takeEvery } from "redux-saga/effects";
+import { put, call, takeLatest, takeEvery } from "redux-saga/effects";
 import Types from "./types";
 import { fetchTodo } from "./actions";
 
@@ -21,9 +21,11 @@ function* deleteTodoSaga(action) {
     yield put(deleteTodo(action.payload));
 }
 
-export default function*() {
+function* mySaga() {
     yield takeEvery(Types.INCREASE_COUNT_SAGA, increaseCountSaga);
     yield takeEvery(Types.DECREASE_COUNT_SAGA, decreaseCountSaga);
     yield takeLatest(Types.ADD_TODO_SAGA, addTodoSaga);
     yield takeLatest(Types.DELETE_TODO_SAGA, deleteTodoSaga);
 }
+
+export default mySaga;

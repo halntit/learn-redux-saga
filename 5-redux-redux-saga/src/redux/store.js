@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from './counterSlice';
 import todosReducer from './todosSlice';
-import sagas from './sagas';
+import mySaga from './sagas';
 import createSagaMiddleware from 'redux-saga';
 
 const loggingMiddleware = (store) => (next) => (action) => {
@@ -22,4 +22,4 @@ export const store = configureStore({
   }).concat(loggingMiddleware, sagaMiddleware),
 });
 
-sagaMiddleware.run(sagas);
+sagaMiddleware.run(mySaga);
