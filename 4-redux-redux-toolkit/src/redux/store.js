@@ -1,9 +1,7 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import { counterReducer as countReducer } from './countReducer';
-import { todosReducer } from './todosReducer';
-import thunk from 'redux-thunk';
+import { configureStore } from "@reduxjs/toolkit";
+
+import counterReducer from './counterSlice';
+import todosReducer from './todosSlice';
 
 const loggingMiddleware = (store) => (next) => (action) => {
   console.log("log middleware");
@@ -12,18 +10,12 @@ const loggingMiddleware = (store) => (next) => (action) => {
   next(action);
 }
 
-const persistConfig = {
-  key: 'root',
-  storage,
-  whitelist: ['count'],
-  blacklist: ['todos'],
-};
-
-const rootReducer = combineReducers({
-  count: countReducer,
-  todos: todosReducer
+export const store = configureStore({
+  reducer: {
+    count: counterReducer,
+    todos: todosReducer,
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: false
+  }).concat(loggingMiddleware),
 });
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-export const store = createStore(persistedReducer, applyMiddleware(loggingMiddleware, thunk));
-export const persistor = persistStore(store);

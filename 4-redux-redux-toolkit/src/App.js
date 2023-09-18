@@ -1,6 +1,7 @@
 import './App.css';
-import { connect } from 'react-redux'
-import { addTodoAsync, decreaseCount, delTodo, increaseCount } from './redux/actions';
+import { connect, useDispatch } from 'react-redux'
+import { addTodoAsync, deleteTodo } from './redux/todosSlice';
+import { increaseCount, decreaseCount } from './redux/counterSlice';
 
 const mapStateToProps = state => ({
   count: state.count.count,
@@ -11,20 +12,22 @@ const incCount = 2;
 const decCount = 1;
 
 function App(props) {
+  const dispatch = useDispatch();
+
   const handleIncrease = () => {
-    props.dispatch(increaseCount(incCount));
+    dispatch(increaseCount(incCount));
   }
 
   const handleDescrease = () => {
-    props.dispatch(decreaseCount(decCount));
+    dispatch(decreaseCount(decCount));
   }
 
   const handleAdd = () => {
-    props.dispatch(addTodoAsync());
+    dispatch(addTodoAsync());
   }
 
   const handleDelete = (index) => {
-    props.dispatch(delTodo(index));
+    dispatch(deleteTodo(index));
   }
 
   return (
