@@ -37,7 +37,7 @@ function App(props) {
 
   return (
     <div className="App">
-      <h1>Redux turtorial</h1>
+      <h1>Redux turtorial | Redux</h1>
       <h4>Count App</h4>
       <h5>Count is {props.count}</h5>
       <button onClick={handleIncrease}>Increase by {incCount}</button>

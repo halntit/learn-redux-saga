@@ -1,8 +1,8 @@
 import './App.css';
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { deleteTodo } from './redux/todosSlice';
-import { increaseCount, decreaseCount } from './redux/counterSlice';
-import { fetchTodo } from './redux/actions';
+import Types from "./redux/types";
+// import { fetchTodo } from './redux/actions';
 
 const incCount = 2;
 const decCount = 1;
@@ -13,16 +13,26 @@ function App(props) {
   const count = useSelector(state => state.count);
 
   const handleIncrease = () => {
-    dispatch(increaseCount(incCount));
+    dispatch({
+      type: Types.INCREASE_COUNT_SAGA,
+      payload: incCount
+    });
   }
 
   const handleDescrease = () => {
-    dispatch(decreaseCount(decCount));
+    dispatch({
+      type: Types.DECREASE_COUNT_SAGA,
+      payload: decCount
+    });
   }
 
   const handleAdd = () => {
     const number = Math.floor(Math.random() * 100) + 1;
-    dispatch(fetchTodo(number));
+    // dispatch(fetchTodo(number));
+    dispatch({
+      type: Types.ADD_TODO_SAGA,
+      data: number
+    });
   }
 
   const handleDelete = (index) => {
@@ -31,10 +41,11 @@ function App(props) {
 
   return (
     <div className="App">
-      <h1>Redux turtorial</h1>
+      <h1>Redux turtorial | Redux Saga</h1>
       <h4>Count App</h4>
       <h5>Count is {count.count}</h5>
       <button onClick={handleIncrease}>Increase by {incCount}</button>
+      &nbsp;|&nbsp;
       <button onClick={handleDescrease}>Descrease by {decCount}</button>
 
       <hr />
@@ -47,9 +58,9 @@ function App(props) {
         </button>
       </div>
       <br />
-      <ul align="left" style={{width:'240px', margin:'auto', border:'1px solid black', padding:'20px'}}>
+      <ul align="left" style={{width:'600px', margin:'auto', border:'1px solid black', padding:'20px', listStyle:'none'}}>
         {todos.todos.map((todo, i) => 
-          <li key={i}>
+          <li style={{marginBottom:'5px', paddingBottom:'5px', borderBottom:'1px dashed #ccc'}} key={i}>
             <button onClick={() => handleDelete(i)}>x</button>
             &nbsp;
             {todo}

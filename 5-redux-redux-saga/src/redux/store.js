@@ -1,34 +1,25 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from './counterSlice';
 import todosReducer from './todosSlice';
+import sagas from './sagas';
+import createSagaMiddleware from 'redux-saga';
 
 const loggingMiddleware = (store) => (next) => (action) => {
-  console.log("log middleware");
-  console.log("store", store);
+  console.log("logging middleware");
   console.log("action", action);
   next(action);
 }
 
-const persistConfig = {
-  key: 'root',
-  storage,
-  whitelist: ['todos'],
-}
-
-const rootReducer = combineReducers({
-  count: counterReducer,
-  todos: todosReducer
-})
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: {
+    count: counterReducer,
+    todos: todosReducer
+  },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-    serializableCheck: false
-  }).concat(loggingMiddleware),
+    serializableCheck: false,
+  }).concat(loggingMiddleware, sagaMiddleware),
 });
 
-export const persistor = persistStore(store);
+sagaMiddleware.run(sagas);
