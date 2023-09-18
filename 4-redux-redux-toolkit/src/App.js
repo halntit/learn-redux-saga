@@ -41,8 +41,10 @@ function App(props) {
 
       <h4>ToDo App</h4>
       <div>
-        <button onClick={handleAdd}>Add a task</button>
-        { todos.isLoading && <span>...</span> }
+        <button disabled={todos.isLoading} onClick={handleAdd}>
+          { todos.isLoading === true && <span>Adding ...</span> }
+          { todos.isLoading === false && <span>Add a task</span> }
+        </button>
       </div>
       <br />
       <ul align="left" style={{width:'240px', margin:'auto', border:'1px solid black', padding:'20px'}}>
