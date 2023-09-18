@@ -1,13 +1,11 @@
 import './App.css';
 import { connect, useDispatch, useSelector } from 'react-redux'
-import { deleteTodo } from './redux/todosSlice';
 import Types from "./redux/types";
-// import { fetchTodo } from './redux/actions';
 
 const incCount = 2;
 const decCount = 1;
 
-function App(props) {
+function App() {
   const dispatch = useDispatch();
   const todos = useSelector(state => state.todos);
   const count = useSelector(state => state.count);
@@ -31,12 +29,15 @@ function App(props) {
     // dispatch(fetchTodo(number));
     dispatch({
       type: Types.ADD_TODO_SAGA,
-      data: number
+      payload: number
     });
   }
 
   const handleDelete = (index) => {
-    dispatch(deleteTodo(index));
+    dispatch({
+      type: Types.DELETE_TODO_SAGA,
+      payload: index
+    });
   }
 
   return (
